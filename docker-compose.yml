@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: "jojo_db"
+      DB_PORT: "5432"
+      DB_NAME: "jojo_db"
+      DB_USER: "postgres"
+      DB_PASSWORD: "1234"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - jojo_db
+
+  jojo_db: 
+    container_name: jojo_db
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: jojo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
